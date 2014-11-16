@@ -1,28 +1,29 @@
 'use strict';
 
-var nodes = document.getElementsByClassName('blob-code');
-var hashLine = +location.hash.replace('#L', '');
+function run() {
+  var nodes = document.getElementsByClassName('blob-code');
 
-var COMMENT_START = /\/\*/;
-var COMMENT_END = /\*\//;
+  var COMMENT_START = /\/\*/;
+  var COMMENT_END = /\*\//;
 
-var comment = false;
+  var comment = false;
 
-for (var i = 0, l = nodes.length; i < l; i++) {
-  var node = nodes[i];
-  var text = node.textContent;
+  for (var i = 0, l = nodes.length; i < l; i++) {
+    var node = nodes[i];
+    var text = node.textContent;
 
-  if (!comment && COMMENT_START.test(text)) {
-    comment = [];
-  }
+    if (!comment && COMMENT_START.test(text)) {
+      comment = [];
+    }
 
-  if (comment) {
-    comment.push({ index: i, node: node, text: text });
-  }
+    if (comment) {
+      comment.push({ index: i, node: node, text: text });
+    }
 
-  if (comment && COMMENT_END.test(text)) {
-    collapseComment(comment);
-    comment = false;
+    if (comment && COMMENT_END.test(text)) {
+      collapseComment(comment);
+      comment = false;
+    }
   }
 }
 
@@ -30,7 +31,7 @@ function collapseComment(comment) {
   var start = comment[0];
   var end = comment[comment.length - 1];
 
-  if (hashLine > start.index && hashLine < end.index) {
+  if (+location.hash.replace('#L', '') > start.index && hashLine < end.index) {
     comment.forEach(showLine);
     return;
   }
@@ -75,3 +76,12 @@ function showLine(line) {
   line.node.parentNode.classList.add('blob-expanded');
   line.node.parentNode.style.display = '';
 }
+
+run();
+
+var container = document.getElementById('js-repo-pjax-container');
+var observer = new MutationObserver(run)
+
+observer.observe(container, {
+  childList: true
+});
