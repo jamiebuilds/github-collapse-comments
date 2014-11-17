@@ -1,0 +1,25 @@
+{
+  "name": "github-collapse-comments",
+  "version": "1.0.1",
+  "description": "Collapse block comments from source viewer",
+  "main": "dist/content.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thejameskyle/github-collapse-comments.git"
+  },
+  "author": "James Kyle <me@thejameskyle.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thejameskyle/github-collapse-comments/issues"
+  },
+  "homepage": "https://github.com/thejameskyle/github-collapse-comments",
+  "devDependencies": {
+    "6to5": "^1.12.15",
+    "jshint": "^2.5.10",
+    "uglify-js": "^2.4.15",
+    "watch": "^0.13.0"
+  }
+}
