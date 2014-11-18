@@ -114,6 +114,13 @@ class Toggle {
    * @method render
    */
   render() {
+    var prev = this.comment.lines[0].parentNode.previousSibling;
+    
+    if (prev.dataset && prev.dataset.position) {
+      this.el = prev;
+      return;
+    }
+
     this.el = document.createElement('tr');
     this.el.className = 'js-expandable-line';
     this.el.dataset.position = this.comment.start.index;
@@ -125,7 +132,6 @@ class Toggle {
     } else {
       preview += `${this.comment.lines[0].text.replace(COMMENT_SYNTAX, '')}`;
     }
-
 
     this.el.innerHTML = `
       <td class="blob-num blob-num-expandable">
@@ -145,6 +151,9 @@ class Toggle {
    * @method insert
    */
   insert() {
+    if (document.contains(this.el)) {
+      return;
+    }
     var firstParent = this.comment.start.parentNode;
     firstParent.parentNode.insertBefore(this.el, firstParent);
   }
